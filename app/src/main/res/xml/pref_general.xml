@@ -1,0 +1,50 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <PreferenceCategory android:title="MQTT details">
+
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="mqtt_broker_address"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="MQTT broker address" />
+
+        <EditTextPreference
+            android:defaultValue="1883"
+            android:key="mqtt_broker_port"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="MQTT broker port"
+            android:inputType="number" />
+
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="mqtt_authentication_switch"
+            android:title="Use MQTT authentication" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="mqtt_username"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="MQTT username"
+            android:dependency="mqtt_authentication_switch" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="mqtt_password"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="MQTT password"
+            android:inputType="textPassword"
+            android:dependency="mqtt_authentication_switch" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
