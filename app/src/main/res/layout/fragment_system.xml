@@ -81,6 +81,100 @@
                 android:padding="5dip"
                 android:layout_marginBottom="5dp" />
 
+            <TableRow>
+
+                <TextView
+                    android:layout_column="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="$SYS/broker/changeset"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_changeset"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="n.a"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+            </TableRow>
+
+            <TextView
+                android:layout_span="2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="The repository changeset (revision) associated with this build. Static."
+                android:gravity="center|left"
+                android:layout_gravity="center|left"
+                android:padding="5dip"
+                android:layout_marginBottom="5dp" />
+
+            <TableRow>
+
+                <TextView
+                    android:layout_column="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="$SYS/broker/heap/current"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_heap_current"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="n.a"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+            </TableRow>
+
+            <TextView
+                android:layout_span="2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="The current size of the heap memory in use by mosquitto. Note that this topic may be unavailable depending on compile time options."
+                android:gravity="center|left"
+                android:layout_gravity="center|left"
+                android:padding="5dip"
+                android:layout_marginBottom="5dp" />
+
+            <TableRow>
+
+                <TextView
+                    android:layout_column="1"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="$SYS/broker/heap/maximum"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_heap_maximum"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="n.a"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|left"
+                    android:layout_gravity="center|left"
+                    android:padding="3dip" />
+            </TableRow>
+
+            <TextView
+                android:layout_span="2"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="The largest amount of heap memory used by mosquitto. Note that this topic may be unavailable depending on compile time options."
+                android:gravity="center|left"
+                android:layout_gravity="center|left"
+                android:padding="5dip"
+                android:layout_marginBottom="85dp" />
+
+
             <!--View
                 android:layout_height="2dip"
                 android:background="#FF909090" /-->

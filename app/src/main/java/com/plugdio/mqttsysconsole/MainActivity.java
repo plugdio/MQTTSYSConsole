@@ -1,5 +1,6 @@
 package com.plugdio.mqttsysconsole;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,6 +30,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.Properties;
+
 public class MainActivity extends AppCompatActivity {
 
     /**
@@ -51,11 +54,12 @@ public class MainActivity extends AppCompatActivity {
     private String mqttUser;
     private String mqttPass;
 
+    private static Properties mySys = new Properties();
 
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    private static ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -190,8 +194,19 @@ public class MainActivity extends AppCompatActivity {
 
                 String tvTopic = topic.replaceAll("/", "_");
 
+//                mySys.setProperty(tvTopic, message.toString());
+
                 TextView tv = (TextView) findViewById(getResources().getIdentifier(tvTopic, "id", getPackageName()));
+
+                if (tv != null) {
+                    Log.d(LOG_TAG, "tv is not null: " + tvTopic);
+                } else {
+                    Log.d(LOG_TAG, "tv is null: " + tvTopic);
+                }
+
+
                 tv.setText(message.toString());
+
 
             }
 
@@ -314,6 +329,7 @@ public class MainActivity extends AppCompatActivity {
          * number.
          */
         public static PlaceholderFragment newInstance(int sectionNumber) {
+
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
@@ -335,6 +351,9 @@ public class MainActivity extends AppCompatActivity {
                     Log.d(LOG_TAG, "Highlights");
                     rootView = inflater.inflate(R.layout.fragment_highlights, container, false);
 
+//                    TextView tv2 = (TextView) rootView.findViewById(R.id.$SYS_broker_uptime);
+//                    tv2.setText(mySys.getProperty("SYS_broker_uptime"));
+
                     break;
                 case 2:
                     Log.d(LOG_TAG, "System");
@@ -345,16 +364,67 @@ public class MainActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.fragment_clients, container, false);
                     break;
                 case 4:
-                    Log.d(LOG_TAG, "Messages");
+                    Log.d(LOG_TAG, "Messages & Data");
                     rootView = inflater.inflate(R.layout.fragment_messages, container, false);
                     break;
                 case 5:
-                    Log.d(LOG_TAG, "Traffic");
-                    rootView = inflater.inflate(R.layout.fragment_trafficmetrics, container, false);
+                    Log.d(LOG_TAG, "Stats");
+                    rootView = inflater.inflate(R.layout.fragment_stats, container, false);
                     break;
             }
+/*
+            Set props = mySys.keySet();   // get set-view of keys
+            Iterator itr = props.iterator();
+
+            TextView tv;
+
+            while (itr.hasNext()) {
+
+                String key = (String) itr.next();
+                tv = (TextView) rootView.findViewById(getResources().getIdentifier(key, "id", rootView.getContext().getPackageName()));
+                if (tv != null) {
+                    Log.d(LOG_TAG, "tv is not null: " + key + " value: " + mySys.getProperty(key));
+                    tv.setText(mySys.getProperty(key));
+                } else {
+                    Log.d(LOG_TAG, "tv is null: " + key);
+                }
+
+            }
+*/
 
             return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            Log.d(LOG_TAG, "fragment onActivityCreated");
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            Log.d(LOG_TAG, "fragment onStart");
+        }
+
+        @Override
+        public void onAttach(Context context) {
+            super.onAttach(context);
+            Log.d(LOG_TAG, "fragment onAttach");
+/*
+            if (context instanceof OnItemSelectedListener) {
+                listener = (OnItemSelectedListener) context;
+            } else {
+                throw new ClassCastException(context.toString()
+                        + " must implemenet MyListFragment.OnItemSelectedListener");
+            }
+*/
+        }
+
+        @Override
+        public void onDetach() {
+            super.onDetach();
+            Log.d(LOG_TAG, "fragment onDetach");
         }
 
     }
@@ -393,9 +463,9 @@ public class MainActivity extends AppCompatActivity {
                 case 2:
                     return "Clients";
                 case 3:
-                    return "Messages";
+                    return "Messages & Data";
                 case 4:
-                    return "Traffic";
+                    return "Stats";
             }
             return null;
         }
