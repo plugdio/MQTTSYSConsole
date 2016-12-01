@@ -1,8 +1,11 @@
 package com.plugdio.mqttsysconsole;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
@@ -45,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
 
-    private String LOG_TAG = "MainActivity";
+    private String LOG_TAG = "Main_Activity";
     //    private SectionsPagerAdapter mSectionsPagerAdapter;
     private SmartFragmentStatePagerAdapter adapterViewPager;
 
@@ -58,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private String mqttPass;
 
     private static Properties mySys = new Properties();
+    private ProgressDialog progress;
 
 
     /**
@@ -73,18 +77,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
-
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(adapterViewPager);
-        mViewPager.setOffscreenPageLimit(1);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
         final TextView mqttStatusTextView = (TextView) findViewById(R.id.mqtt_status);
         mqttStatusTextView.setText("Not connected");
 
+//        progress = ProgressDialog.show(this, "MQTT $SYS Console", "Connecting");
+        progress = new ProgressDialog(this);
+        progress.show();
+
+        progress.setCancelable(false);
+        progress.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        progress.setContentView(R.layout.progressdialog);
 
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(this);
@@ -206,8 +208,9 @@ public class MainActivity extends AppCompatActivity {
 
                 tv.setText(message.toString());
 
-//                adapterViewPager.notifyDataSetChanged();
+                Log.d(LOG_TAG, ". mySys size#1: " + mySys.size());
 
+//                adapterViewPager.notifyDataSetChanged();
 
             }
 
@@ -216,6 +219,8 @@ public class MainActivity extends AppCompatActivity {
 //                log(LogEntry.LOGTYPE_LOG, null, null, "deliveryComplete");
             }
         });
+
+        new LongOperation().execute("start");
 
     }
 
@@ -240,20 +245,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    /*
-    private BroadcastReceiver prefChangeReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle notificationData = intent.getExtras();
-            String pref = notificationData.getString("PREF");
-            String value = notificationData.getString("VALUE");
-
-            Log.d(LOG_TAG, "Preferences have changed");
-
-        }
-    };
-*/
 
     @Override
     public void onDestroy() {
@@ -311,8 +302,47 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private class LongOperation extends AsyncTask<String, Void, String> {
+
+        private String LOG_TAG = "Main_LongOperation";
+
+        protected String doInBackground(String... params) {
+
+            int i = 0;
+            while ((i < 10) && (mySys.size() < 10)) {
+                i++;
+                Log.d(LOG_TAG, i + ". mySys size: " + mySys.size());
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
+                }
+            }
+            return null;
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Log.d(LOG_TAG, ". onPostExecute: " + mySys.size());
+            progress.dismiss();
+
+            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+
+            mViewPager = (ViewPager) findViewById(R.id.container);
+            mViewPager.setAdapter(adapterViewPager);
+            mViewPager.setOffscreenPageLimit(1);
+
+            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+            tabLayout.setupWithViewPager(mViewPager);
+
+        }
+    }
+
     /**
-     * A placeholder fragment containing a simple view.
+     * *********************************************************************************************************
      */
     public static class PlaceholderFragment extends Fragment {
         /**
@@ -320,7 +350,7 @@ public class MainActivity extends AppCompatActivity {
          * fragment.
          */
         private static final String ARG_SECTION_NUMBER = "section_number";
-        private String LOG_TAG = "MA_PlaceHolderFragement";
+        private String LOG_TAG = "Main_PHFragement";
 
         public PlaceholderFragment() {
         }
@@ -495,7 +525,7 @@ public class MainActivity extends AppCompatActivity {
     // Extend from SmartFragmentStatePagerAdapter now instead for more dynamic ViewPager items
     public static class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
         private static int NUM_ITEMS = 5;
-        private String LOG_TAG = "MyPagerAdapter";
+        private String LOG_TAG = "Main_MyPagerAdapter";
 
         public MyPagerAdapter(FragmentManager fragmentManager) {
             super(fragmentManager);
