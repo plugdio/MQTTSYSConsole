@@ -30,7 +30,9 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
+import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -44,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
      */
 
     private String LOG_TAG = "MainActivity";
-    private SectionsPagerAdapter mSectionsPagerAdapter;
+    //    private SectionsPagerAdapter mSectionsPagerAdapter;
+    private SmartFragmentStatePagerAdapter adapterViewPager;
 
     private MqttAndroidClient client;
 
@@ -55,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private String mqttPass;
 
     private static Properties mySys = new Properties();
+
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -68,13 +72,12 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
 
-        // Set up the ViewPager with the sections adapter.
+        adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(adapterViewPager);
+        mViewPager.setOffscreenPageLimit(1);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
@@ -82,11 +85,6 @@ public class MainActivity extends AppCompatActivity {
         final TextView mqttStatusTextView = (TextView) findViewById(R.id.mqtt_status);
         mqttStatusTextView.setText("Not connected");
 
-/*
-        IntentFilter prefChangeFilter = new IntentFilter();
-        prefChangeFilter.addAction(SettingsActivity.PREF_CHANGED);
-        registerReceiver(prefChangeReceiver, prefChangeFilter);
-*/
 
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(this);
@@ -194,18 +192,21 @@ public class MainActivity extends AppCompatActivity {
 
                 String tvTopic = topic.replaceAll("/", "_");
 
-//                mySys.setProperty(tvTopic, message.toString());
+                mySys.setProperty(tvTopic, message.toString());
 
-                TextView tv = (TextView) findViewById(getResources().getIdentifier(tvTopic, "id", getPackageName()));
-
+//                TextView tv = (TextView) findViewById(getResources().getIdentifier(tvTopic, "id", getPackageName()));
+                View currentView = adapterViewPager.getRegisteredFragment(mViewPager.getCurrentItem()).getView();
+                TextView tv = (TextView) currentView.findViewById(getResources().getIdentifier(tvTopic, "id", currentView.getContext().getPackageName()));
                 if (tv != null) {
-                    Log.d(LOG_TAG, "tv is not null: " + tvTopic);
+                    Log.d(LOG_TAG, "tv#1 is not null: " + tvTopic);
                 } else {
-                    Log.d(LOG_TAG, "tv is null: " + tvTopic);
+                    Log.d(LOG_TAG, "tv#1 is null: " + tvTopic);
                 }
 
 
                 tv.setText(message.toString());
+
+//                adapterViewPager.notifyDataSetChanged();
 
 
             }
@@ -372,7 +373,7 @@ public class MainActivity extends AppCompatActivity {
                     rootView = inflater.inflate(R.layout.fragment_stats, container, false);
                     break;
             }
-/*
+
             Set props = mySys.keySet();   // get set-view of keys
             Iterator itr = props.iterator();
 
@@ -383,14 +384,13 @@ public class MainActivity extends AppCompatActivity {
                 String key = (String) itr.next();
                 tv = (TextView) rootView.findViewById(getResources().getIdentifier(key, "id", rootView.getContext().getPackageName()));
                 if (tv != null) {
-                    Log.d(LOG_TAG, "tv is not null: " + key + " value: " + mySys.getProperty(key));
+                    Log.d(LOG_TAG, "tv#2 is not null: " + key + " value: " + mySys.getProperty(key));
                     tv.setText(mySys.getProperty(key));
                 } else {
-                    Log.d(LOG_TAG, "tv is null: " + key);
+                    Log.d(LOG_TAG, "tv#2 is null: " + key);
                 }
 
             }
-*/
 
             return rootView;
         }
@@ -398,19 +398,19 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            Log.d(LOG_TAG, "fragment onActivityCreated");
+            Log.d(LOG_TAG, "fragment onActivityCreated - " + getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
         @Override
         public void onStart() {
             super.onStart();
-            Log.d(LOG_TAG, "fragment onStart");
+            Log.d(LOG_TAG, "fragment onStart - " + getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
         @Override
         public void onAttach(Context context) {
             super.onAttach(context);
-            Log.d(LOG_TAG, "fragment onAttach");
+            Log.d(LOG_TAG, "fragment onAttach - " + getArguments().getInt(ARG_SECTION_NUMBER));
 /*
             if (context instanceof OnItemSelectedListener) {
                 listener = (OnItemSelectedListener) context;
@@ -427,6 +427,25 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "fragment onDetach");
         }
 
+        @Override
+        public void onResume() {
+            super.onResume();
+            Log.d(LOG_TAG, "fragment onResume - " + getArguments().getInt(ARG_SECTION_NUMBER));
+        }
+
+
+        @Override
+        public void setUserVisibleHint(boolean isVisibleToUser) {
+            super.setUserVisibleHint(isVisibleToUser);
+            if (isVisibleToUser) {
+                Log.d(LOG_TAG, "showing fragment: " + getArguments().getInt(ARG_SECTION_NUMBER));
+//                FragmentTransaction ft = getFragmentManager().beginTransaction();
+//                ft.detach(this).attach(this).commit();
+            } else {
+                // fragment is no longer visible
+            }
+        }
+
     }
 
 
@@ -434,6 +453,7 @@ public class MainActivity extends AppCompatActivity {
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.
      */
+/*
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -469,6 +489,69 @@ public class MainActivity extends AppCompatActivity {
             }
             return null;
         }
+    }
+*/
+    // idea from: https://guides.codepath.com/android/ViewPager-with-FragmentPagerAdapter
+    // Extend from SmartFragmentStatePagerAdapter now instead for more dynamic ViewPager items
+    public static class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
+        private static int NUM_ITEMS = 5;
+        private String LOG_TAG = "MyPagerAdapter";
+
+        public MyPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
+
+        // Returns total number of pages
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        // Returns the fragment to display for that page
+        @Override
+        public Fragment getItem(int position) {
+            return PlaceholderFragment.newInstance(position + 1);
+//            PlaceholderFragment phf = PlaceholderFragment.newInstance(position + 1);
+//            phf.onResume();
+//            return phf;
+/*
+            switch (position) {
+                case 0: // Fragment # 0 - This will show FirstFragment
+                    return FirstFragment.newInstance(0, "Page # 1");
+                case 1: // Fragment # 0 - This will show FirstFragment different title
+                    return FirstFragment.newInstance(1, "Page # 2");
+                case 2: // Fragment # 1 - This will show SecondFragment
+                    return SecondFragment.newInstance(2, "Page # 3");
+                default:
+                    return null;
+            }
+  */
+        }
+
+        // Returns the page title for the top indicator
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Highlights";
+                case 1:
+                    return "System";
+                case 2:
+                    return "Clients";
+                case 3:
+                    return "Messages & Data";
+                case 4:
+                    return "Stats";
+            }
+            return null;
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            Log.d(LOG_TAG, "reload");
+            return POSITION_NONE;
+        }
+
     }
 
 }
