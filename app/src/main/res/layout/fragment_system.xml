@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -21,23 +22,25 @@
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
+
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/version"
                     android:gravity="center|left"
                     android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    android:padding="3dip"
+                    android:layout_weight="0" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_version"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
+                    android:text="mosquitto version 1.4.10"
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:minWidth="300dp"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
                     android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    android:padding="3dip"
+                    android:layout_width="match_parent" />
             </TableRow>
 
             <TextView
@@ -53,7 +56,6 @@
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/timestamp"
                     android:gravity="center|left"
@@ -63,8 +65,9 @@
                 <TextView
                     android:id="@+id/$SYS_broker_timestamp"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
+                    android:text="Thu, 25 Aug 2016 15:32:03 +0100"
                     android:layout_weight="1"
+                    android:minWidth="300dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
@@ -84,7 +87,6 @@
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/changeset"
                     android:gravity="center|left"
@@ -96,6 +98,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="n.a"
                     android:layout_weight="1"
+                    android:minWidth="300dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
@@ -115,7 +118,6 @@
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/heap/current"
                     android:gravity="center|left"
@@ -127,6 +129,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="n.a"
                     android:layout_weight="1"
+                    android:minWidth="300dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"
@@ -146,7 +149,6 @@
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/heap/maximum"
                     android:gravity="center|left"
@@ -158,6 +160,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="n.a"
                     android:layout_weight="1"
+                    android:minWidth="300dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center|left"

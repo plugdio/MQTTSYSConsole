@@ -63,7 +63,16 @@ public class MainActivity extends AppCompatActivity {
     private static Properties mySys = new Properties();
     private ProgressDialog progress;
 
+    // constants used to define App and MQTT connection status
+    private enum AppStatus {
+        INITIAL,                            // initial status
+        NO_CONFIG,                         // missing configuration
+        CONNECTING,                         // attempting to connect
+        CONNECTED,                          // connected
+        NOTCONNECTED_UNKNOWNREASON          // failed to connect for some reason
+    }
 
+    private AppStatus status = AppStatus.INITIAL;
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -103,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                 ) {
             Log.d(LOG_TAG, "MQTT configuration is missing");
             mqttStatusTextView.setText("MQTT configuration is missing");
+            status = AppStatus.NO_CONFIG;
+            progress.dismiss();
             return;
         }
 
@@ -132,6 +143,8 @@ public class MainActivity extends AppCompatActivity {
                 public void onSuccess(IMqttToken asyncActionToken) {
                     Log.d(LOG_TAG, "MQTT connection successful, let's subscribe");
 
+                    status = AppStatus.CONNECTED;
+
                     String topic = "$SYS/#";
                     int qos = 1;
                     try {
@@ -142,14 +155,15 @@ public class MainActivity extends AppCompatActivity {
                             public void onSuccess(IMqttToken asyncActionToken) {
                                 Log.d(LOG_TAG, "MQTT subscribe successful");
                                 mqttStatusTextView.setText("Connected");
+                                status = AppStatus.CONNECTED;
                             }
 
                             @Override
                             public void onFailure(IMqttToken asyncActionToken,
                                                   Throwable exception) {
                                 Log.e(LOG_TAG, "MQTT subscribe failed: " + exception.getMessage());
-                                mqttStatusTextView.setText("Connection failed");
-
+                                mqttStatusTextView.setText("Couldn't subscripbe to the $SYS topic");
+                                status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
                             }
                         });
                     } catch (MqttException e) {
@@ -168,6 +182,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
                     Log.e(LOG_TAG, "MQTT connection failed: " + exception.getMessage());
                     mqttStatusTextView.setText("Connection failed");
+                    status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
 
                 }
             });
@@ -190,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.d(LOG_TAG, "messageArrived: " + topic + " / " + message.toString());
+                Log.v(LOG_TAG, "messageArrived: " + topic + " / " + message.toString());
 
                 String tvTopic = topic.replaceAll("/", "_");
 
@@ -200,15 +215,13 @@ public class MainActivity extends AppCompatActivity {
                 View currentView = adapterViewPager.getRegisteredFragment(mViewPager.getCurrentItem()).getView();
                 TextView tv = (TextView) currentView.findViewById(getResources().getIdentifier(tvTopic, "id", currentView.getContext().getPackageName()));
                 if (tv != null) {
-                    Log.d(LOG_TAG, "tv#1 is not null: " + tvTopic);
+                    Log.v(LOG_TAG, "tv#1 is not null: " + tvTopic);
                 } else {
-                    Log.d(LOG_TAG, "tv#1 is null: " + tvTopic);
+                    Log.v(LOG_TAG, "tv#1 is null: " + tvTopic);
                 }
 
 
                 tv.setText(message.toString());
-
-                Log.d(LOG_TAG, ". mySys size#1: " + mySys.size());
 
 //                adapterViewPager.notifyDataSetChanged();
 
@@ -221,7 +234,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         new LongOperation().execute("start");
-
     }
 
     @Override
@@ -308,7 +320,26 @@ public class MainActivity extends AppCompatActivity {
 
         protected String doInBackground(String... params) {
 
+            if (status == AppStatus.NO_CONFIG || status == AppStatus.NOTCONNECTED_UNKNOWNREASON) {
+                return null;
+            }
+
             int i = 0;
+            while ((i < 10) && status == AppStatus.INITIAL) {
+                i++;
+                Log.d(LOG_TAG, i + ". ready?: " + status);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
+                }
+            }
+
+            if (status != AppStatus.CONNECTED) {
+                return null;
+            }
+
+            i = 0;
             while ((i < 10) && (mySys.size() < 10)) {
                 i++;
                 Log.d(LOG_TAG, i + ". mySys size: " + mySys.size());
@@ -326,18 +357,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d(LOG_TAG, ". onPostExecute: " + mySys.size());
+            Log.d(LOG_TAG, "onPostExecute: " + mySys.size());
             progress.dismiss();
 
-            adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
+            if (status == AppStatus.CONNECTED) {
+                adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
 
-            mViewPager = (ViewPager) findViewById(R.id.container);
-            mViewPager.setAdapter(adapterViewPager);
-            mViewPager.setOffscreenPageLimit(1);
+                mViewPager = (ViewPager) findViewById(R.id.container);
+                mViewPager.setAdapter(adapterViewPager);
+                mViewPager.setOffscreenPageLimit(1);
 
-            TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-            tabLayout.setupWithViewPager(mViewPager);
-
+                TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+                tabLayout.setupWithViewPager(mViewPager);
+            }
         }
     }
 
