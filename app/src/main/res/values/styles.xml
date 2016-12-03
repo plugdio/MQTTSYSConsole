@@ -17,4 +17,39 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="SysTopicTitleName">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:padding">3dip</item>
+    </style>
+
+    <style name="SysTopicTitleValue">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center|right</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center|right</item>
+        <item name="android:padding">3dip</item>
+        <item name="android:minWidth">300dp</item>
+    </style>
+
+    <style name="SysTopicDescription">
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_gravity">center|left</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:padding">5dip</item>
+    </style>
+
 </resources>

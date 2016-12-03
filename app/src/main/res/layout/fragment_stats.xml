@@ -1,33 +1,383 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.plugdio.mqttsysconsole.MainActivity$PlaceholderFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/section_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.LinearLayoutCompat
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:paddingTop="20dp">
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.plugdio.mqttsysconsole.MainActivity$PlaceholderFragment">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Traffic metrics"
-            android:textSize="20dp"
-            android:textStyle="bold" />
+        <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:stretchColumns="1">
 
-    </android.support.v7.widget.LinearLayoutCompat>
 
-</RelativeLayout>
+            //$SYS/broker/load/connections/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/connections/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_connections_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_connections_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_connections_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of CONNECT packets received by the broker over different time intervals. The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of connections received in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/bytes/received/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/bytes/received/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_received_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_received_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_received_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of bytes received by the broker over different time intervals. The final  of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of bytes received in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/bytes/sent/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/bytes/sent/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_sent_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_sent_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_bytes_sent_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of bytes sent by the broker over different time intervals. The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of bytes sent in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/messages/received/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/messages/received/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_received_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_received_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_received_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of all types of MQTT messages received by the broker over different time intervals.  The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of messages received in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/messages/sent/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/messages/sent/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_sent_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_sent_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_messages_sent_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of all types of MQTT messages sent by the broker over different time intervals. The final  of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of messages send in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/publish/dropped/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/publish/dropped/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_dropped_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_dropped_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_dropped_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                </LinearLayout>
+
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of publish messages dropped by the broker over different time intervals. This shows the rate at which durable clients that are disconnected are losing messages. The final  of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of messages dropped in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/publish/received/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/publish/received/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_received_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_received_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_received_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of publish messages received by the broker over different time intervals. The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of publish messages received in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/publish/sent/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/publish/sent/+" />
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_sent_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_sent_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_publish_sent_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of publish messages sent by the broker over different time intervals. The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of publish messages sent in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/load/sockets/+
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/load/sockets/+" />
+
+
+                <LinearLayout
+                    style="@style/SysTopicTitleValue"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_sockets_1min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_sockets_5min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+                    <TextView
+                        android:id="@+id/$SYS_broker_load_sockets_15min"
+                        style="@style/SysTopicTitleValue"
+                        android:text="n.a." />
+
+
+                </LinearLayout>
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The moving average of the number of socket connections opened to the broker over different time intervals. The final of the hierarchy can be 1min, 5min or 15min. The value returned represents the number of socket connections in 1 minute, averaged over 1, 5 or 15 minutes." />
+
+
+            //$SYS/broker/messages/inflight
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/messages/inflight" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_messages_inflight"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The number of messages with QoS > 0 that are awaiting acknowledgments." />
+
+            //$SYS/broker/subscriptions/count
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/subscriptions/count" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_subscriptions_count"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:layout_marginBottom="55dp"
+                android:text="The total number of subscriptions active on the broker." />
+
+        </TableLayout>
+
+    </RelativeLayout>
+</ScrollView>

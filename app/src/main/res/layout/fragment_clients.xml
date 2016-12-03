@@ -18,192 +18,139 @@
             android:layout_height="match_parent"
             android:stretchColumns="1">
 
-            <TableRow>
 
-                <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/inactive"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:id="@+id/$SYS_broker_clients_inactive"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Deprecated: The total number of persistent clients (with clean session disabled) that are registered at the broker but are currently disconnected."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+            //$SYS/broker/clients/active
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/disconnected"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:id="@+id/$SYS_broker_clients_disconnected"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The total number of persistent clients (with clean session disabled) that are registered at the broker but are currently disconnected."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
-
-            <TableRow>
-
-                <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/active"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/active" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_clients_active"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Deprecated: The number of currently connected clients."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                <TextView
+                    style="@style/SysTopicDescription"
+                    android:text="The number of currently connected clients." />
+
+
+            //$SYS/broker/clients/expired
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/connected"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:id="@+id/$SYS_broker_clients_connected"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The number of currently connected clients."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
-
-
-            <TableRow>
-
-                <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/maximum"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:id="@+id/$SYS_broker_clients_maximum"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The maximum number of active clients that have been connected to the broker. This is only calculated when the $SYS topic tree is updated, so short lived client connections may not be counted."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
-
-            <TableRow>
-
-                <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/expired"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/expired" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_clients_expired"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The number of disconnected persistent clients that have been expired and removed through the persistent_client_expiration option." />
+
+
+            //$SYS/broker/clients/inactive
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/inactive" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_clients_inactive"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The number of disconnected persistent clients that have been expired and removed through the persistent_client_expiration option."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="85dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of persistent clients (with clean session disabled) that are registered at the broker but are currently disconnected." />
+
+
+            //$SYS/broker/clients/maximum
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/maximum" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_clients_maximum"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The maximum number of clients that have been connected to the broker at the same time." />
+
+
+            //$SYS/broker/clients/total
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/total" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_clients_total"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of active and inactive clients currently connected and registered on the broker." />
+
+            //$SYS/broker/clients/disconnected
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/disconnected" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_clients_disconnected"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a" />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of persistent clients (with clean session disabled) that are registered at the broker but are currently disconnected." />
+
+            //$SYS/broker/clients/connected
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/connected" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_clients_connected"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The number of currently connected clients."
+                android:layout_marginBottom="55dp" />
+
 
         </TableLayout>
 

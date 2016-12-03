@@ -19,163 +19,99 @@
             android:layout_height="match_parent"
             android:stretchColumns="1">
 
+            //$SYS/broker/version
+
             <TableRow>
 
                 <TextView
-
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/version"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip"
-                    android:layout_weight="0" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/version" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_version"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="mosquitto version 1.4.10"
-                    android:layout_weight="1"
-                    android:minWidth="300dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip"
-                    android:layout_width="match_parent" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The version of the broker."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:layout_width="match_parent"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The version of the broker. Static." />
 
+
+            //$SYS/broker/timestamp
 
             <TableRow>
 
                 <TextView
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/timestamp"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/timestamp" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_timestamp"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Thu, 25 Aug 2016 15:32:03 +0100"
-                    android:layout_weight="1"
-                    android:minWidth="300dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The timestamp at which this particular build of the broker was made."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The timestamp at which this particular build of the broker was made. Static." />
+
+            //$SYS/broker/heap/current size
 
             <TableRow>
 
                 <TextView
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/changeset"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-
-                <TextView
-                    android:id="@+id/$SYS_broker_changeset"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:minWidth="300dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
-            </TableRow>
-
-            <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The repository changeset (revision) associated with this build. Static."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
-
-            <TableRow>
-
-                <TextView
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/heap/current"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/heap/current size" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_heap_current"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:minWidth="300dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The current size of the heap memory in use by mosquitto. Note that this topic may be unavailable depending on compile time options."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The current size of the heap memory in use by  mosquitto. Note that this topic may be unavailable depending on compile time options." />
+
+
+            //$SYS/broker/heap/maximum size
 
             <TableRow>
 
                 <TextView
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/heap/maximum"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/heap/maximum size" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_heap_maximum"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:minWidth="300dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The largest amount of heap memory used by mosquitto. Note that this topic may be unavailable depending on compile time options."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="85dp" />
+                style="@style/SysTopicDescription"
+                android:text="The largest amount of heap memory used by mosquitto. Note that this topic may be unavailable depending on compile time options." />
+
+
+            //$SYS/broker/connection/#
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/connection/#" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_connection"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="When bridges are configured to/from the broker, common practice is to provide a status topic that indicates the state of the connection. This is provided within $SYS/broker/connection/ by default. If the value of the topic is 1 the connection is active, if 0 then it is not active."
+                android:layout_marginBottom="55dp" />
 
 
             <!--View

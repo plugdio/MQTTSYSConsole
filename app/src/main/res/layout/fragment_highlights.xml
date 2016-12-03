@@ -18,174 +18,110 @@
             android:layout_height="match_parent"
             android:stretchColumns="1">
 
-            <TableRow>
+            //$SYS/broker/clients/total
 
+            <TableRow>
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/clients/total"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/clients/total" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_clients_total"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The total number of active and inactive clients currently connected and registered on the broker."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:layout_width="match_parent"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of active and inactive clients currently connected and registered on the broker." />
+
+
+            //$SYS/broker/uptime
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/uptime"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/uptime" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_uptime"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The amount of time in seconds the broker has been online."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The amount of time in seconds the broker has been online." />
+
+            //$SYS/broker/messages/received
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/messages/received"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/messages/received" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_messages_received"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The total number of PUBLISH messages received since the broker started."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of PUBLISH messages received since the broker started." />
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/messages/sent"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_messages_sent"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The total number of PUBLISH messages sent since the broker started."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of PUBLISH messages sent since the broker started." />
+
+            //$SYS/broker/subscriptions/count
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/subscriptions/count"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/subscriptions/count" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_subscriptions_count"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The total number of subscriptions active on the broker."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of subscriptions active on the broker." />
 
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
                     android:text="$SYS/broker/publish/messages/dropped"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:layout_width="200dp"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName" />
 
                 <TextView
                     android:id="@+id/$SYS_broker_publish_messages_dropped"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a."
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="The total number of publish messages that have been dropped due to inflight/queuing limits."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="85dp" />
+                style="@style/SysTopicDescription"
+                android:layout_marginBottom="55dp" />
 
             <!--View
                 android:layout_height="2dip"

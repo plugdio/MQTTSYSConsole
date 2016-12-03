@@ -18,36 +18,187 @@
             android:layout_height="match_parent"
             android:stretchColumns="1">
 
+
+            //$SYS/broker/messages/received
+
             <TableRow>
 
                 <TextView
-                    android:layout_column="1"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="$SYS/broker/messages/stored"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/messages/received" />
 
                 <TextView
-                    android:id="@+id/$SYS_broker_messages_stored"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="n.a"
-                    android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center|left"
-                    android:layout_gravity="center|left"
-                    android:padding="3dip" />
+                    android:id="@+id/$SYS_broker_messages_received"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
             </TableRow>
 
             <TextView
-                android:layout_span="2"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="The number of messages currently held in the message store. This includes retained messages and messages queued for durable clients."
-                android:gravity="center|left"
-                android:layout_gravity="center|left"
-                android:padding="5dip"
-                android:layout_marginBottom="5dp" />
+                style="@style/SysTopicDescription"
+                android:text="The total number of messages of any type received since the broker started." />
+
+
+            //$SYS/broker/messages/sent
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/messages/sent" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_messages_sent"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of messages of any type sent since the broker started." />
+
+
+            //$SYS/broker/messages/stored
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/messages/stored" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_messages_stored"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The number of messages currently held in the message store. This includes retained messages and messages queued for durable clients." />
+
+
+            //$SYS/broker/publish/messages/dropped
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/publish/messages/dropped" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_publish_messages_dropped"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of publish messages that have been dropped due to inflight/queuing limits." />
+
+
+            //$SYS/broker/publish/messages/received
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/publish/messages/received" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_publish_messages_received"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of PUBLISH messages received since the broker started." />
+
+
+            //$SYS/broker/publish/messages/sent
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/publish/messages/sent" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_publish_messages_sent"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of PUBLISH messages sent since the broker started." />
+
+
+            //$SYS/broker/retained messages/count
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/retained messages/count" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_retained_messages_count"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of retained messages active on the broker." />
+
+
+            <!--
+
+                        <View
+                                        android:layout_height="2dip"
+                                        android:background="#FF909090" />
+
+            -->
+
+            //$SYS/broker/bytes/received
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/bytes/received"
+                    android:layout_marginTop="10dp" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_bytes_received"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of bytes received since the broker started." />
+
+
+            //$SYS/broker/bytes/sent
+
+            <TableRow>
+
+                <TextView
+                    style="@style/SysTopicTitleName"
+                    android:text="$SYS/broker/bytes/sent" />
+
+                <TextView
+                    android:id="@+id/$SYS_broker_bytes_sent"
+                    style="@style/SysTopicTitleValue"
+                    android:text="n.a." />
+            </TableRow>
+
+            <TextView
+                style="@style/SysTopicDescription"
+                android:text="The total number of bytes sent since the broker started."
+                android:layout_marginBottom="55dp" />
+
 
         </TableLayout>
 
