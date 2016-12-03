@@ -22,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
@@ -360,7 +361,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOG_TAG, "onPostExecute: " + mySys.size());
             progress.dismiss();
 
+            ImageView alertImage = (ImageView) findViewById(R.id.alert);
+
             if (status == AppStatus.CONNECTED) {
+                alertImage.setVisibility(View.INVISIBLE);
+
                 adapterViewPager = new MyPagerAdapter(getSupportFragmentManager());
 
                 mViewPager = (ViewPager) findViewById(R.id.container);
@@ -369,6 +374,8 @@ public class MainActivity extends AppCompatActivity {
 
                 TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
                 tabLayout.setupWithViewPager(mViewPager);
+            } else {
+                alertImage.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -433,6 +440,10 @@ public class MainActivity extends AppCompatActivity {
                 case 5:
                     Log.d(LOG_TAG, "Stats");
                     rootView = inflater.inflate(R.layout.fragment_stats, container, false);
+                    break;
+                case 0:
+                    Log.d(LOG_TAG, "Error");
+                    rootView = inflater.inflate(R.layout.fragment_error, container, false);
                     break;
             }
 
@@ -511,48 +522,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-     * one of the sections/tabs/pages.
-     */
-/*
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
-        }
-
-        @Override
-        public int getCount() {
-            // Show 3 total pages.
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Highlights";
-                case 1:
-                    return "System";
-                case 2:
-                    return "Clients";
-                case 3:
-                    return "Messages & Data";
-                case 4:
-                    return "Stats";
-            }
-            return null;
-        }
-    }
-*/
     // idea from: https://guides.codepath.com/android/ViewPager-with-FragmentPagerAdapter
     // Extend from SmartFragmentStatePagerAdapter now instead for more dynamic ViewPager items
     public static class MyPagerAdapter extends SmartFragmentStatePagerAdapter {
@@ -573,26 +543,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public Fragment getItem(int position) {
             return PlaceholderFragment.newInstance(position + 1);
-//            PlaceholderFragment phf = PlaceholderFragment.newInstance(position + 1);
-//            phf.onResume();
-//            return phf;
-/*
-            switch (position) {
-                case 0: // Fragment # 0 - This will show FirstFragment
-                    return FirstFragment.newInstance(0, "Page # 1");
-                case 1: // Fragment # 0 - This will show FirstFragment different title
-                    return FirstFragment.newInstance(1, "Page # 2");
-                case 2: // Fragment # 1 - This will show SecondFragment
-                    return SecondFragment.newInstance(2, "Page # 3");
-                default:
-                    return null;
-            }
-  */
         }
 
         // Returns the page title for the top indicator
         @Override
         public CharSequence getPageTitle(int position) {
+
+            Log.v(LOG_TAG, "getPageTitle: " + position);
+
             switch (position) {
                 case 0:
                     return "Highlights";
