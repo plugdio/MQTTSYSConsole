@@ -12,7 +12,6 @@ import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +23,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.eclipse.paho.android.service.MqttAndroidClient;
 import org.eclipse.paho.client.mqttv3.IMqttActionListener;
@@ -40,17 +40,17 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+
+    public static int LOGLEVEL = 1;
+    public static boolean ERROR = LOGLEVEL > 0;
+    public static boolean WARN = LOGLEVEL > 1;
+    public static boolean INFO = LOGLEVEL > 2;
+    public static boolean DEBUG = LOGLEVEL > 3;
+    public static boolean VERBOSE = LOGLEVEL > 4;
+
+    private int backButtonCount = 0;
 
     private String LOG_TAG = "Main_Activity";
-    //    private SectionsPagerAdapter mSectionsPagerAdapter;
     private SmartFragmentStatePagerAdapter adapterViewPager;
 
     private MqttAndroidClient client;
@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
                         (mqqtAuthEnabled && mqttUser.equals("")) ||
                         (mqqtAuthEnabled && mqttPass.equals(""))
                 ) {
-            Log.d(LOG_TAG, "MQTT configuration is missing");
+            if (DEBUG) Log.d(LOG_TAG, "MQTT configuration is missing");
             mqttStatusTextView.setText("MQTT configuration is missing");
             status = AppStatus.NO_CONFIG;
             progress.dismiss();
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
         String clientId = Settings.Secure.getString(getContentResolver(),
                 Settings.Secure.ANDROID_ID);
 
-        Log.d(LOG_TAG, "clientId: " + clientId);
+        if (DEBUG) Log.d(LOG_TAG, "clientId: " + clientId);
 
         if (clientId.length() > 23) {
             clientId = clientId.substring(0, 23);
@@ -142,19 +142,18 @@ public class MainActivity extends AppCompatActivity {
             token.setActionCallback(new IMqttActionListener() {
                 @Override
                 public void onSuccess(IMqttToken asyncActionToken) {
-                    Log.d(LOG_TAG, "MQTT connection successful, let's subscribe");
+                    if (DEBUG) Log.d(LOG_TAG, "MQTT connection successful, let's subscribe");
 
                     status = AppStatus.CONNECTED;
 
                     String topic = "$SYS/#";
                     int qos = 1;
                     try {
-                        //IMqttToken subToken = client.subscribe(topic, qos);
                         IMqttToken subToken = client.subscribe(topic, qos);
                         subToken.setActionCallback(new IMqttActionListener() {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
-                                Log.d(LOG_TAG, "MQTT subscribe successful");
+                                if (DEBUG) Log.d(LOG_TAG, "MQTT subscribe successful");
                                 mqttStatusTextView.setText("Connected");
                                 status = AppStatus.CONNECTED;
                             }
@@ -162,18 +161,17 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(IMqttToken asyncActionToken,
                                                   Throwable exception) {
-                                Log.e(LOG_TAG, "MQTT subscribe failed: " + exception.getMessage());
+                                if (ERROR)
+                                    Log.e(LOG_TAG, "MQTT subscribe failed: " + exception.getMessage());
                                 mqttStatusTextView.setText("Couldn't subscripbe to the $SYS topic");
                                 status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
                             }
                         });
                     } catch (MqttException e) {
-//            e.printStackTrace();
-                        Log.e(LOG_TAG, "MqttException #2: " + e.getMessage());
+                        if (ERROR) Log.e(LOG_TAG, "MqttException #2: " + e.getMessage());
                         mqttStatusTextView.setText("Connection failed");
                     } catch (Exception e) {
-//            e.printStackTrace();
-                        Log.e(LOG_TAG, "Exception #2: " + e.getMessage());
+                        if (ERROR) Log.e(LOG_TAG, "Exception #2: " + e.getMessage());
                         mqttStatusTextView.setText("Connection failed");
                         return;
                     }
@@ -181,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    Log.e(LOG_TAG, "MQTT connection failed: " + exception.getMessage());
+                    if (ERROR) Log.e(LOG_TAG, "MQTT connection failed: " + exception.getMessage());
                     mqttStatusTextView.setText("Connection failed");
                     status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
 
@@ -189,24 +187,23 @@ public class MainActivity extends AppCompatActivity {
             });
 
         } catch (MqttException e) {
-//            e.printStackTrace();
-            Log.e(LOG_TAG, "MqttException #1: " + e.getMessage());
+            if (ERROR) Log.e(LOG_TAG, "MqttException #1: " + e.getMessage());
             mqttStatusTextView.setText("Connection failed");
         } catch (Exception e) {
-//            e.printStackTrace();
-            Log.e(LOG_TAG, "Exception #1: " + e.getMessage());
+            if (ERROR) Log.e(LOG_TAG, "Exception #1: " + e.getMessage());
             mqttStatusTextView.setText("Connection failed");
             return;
         }
         client.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-//                log(LogEntry.LOGTYPE_LOG, null, null, "connectionLost: " + cause);
+                if (ERROR) Log.e(LOG_TAG, "connectionLost: " + cause);
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage message) throws Exception {
-                Log.v(LOG_TAG, "messageArrived: " + topic + " / " + message.toString());
+                if (VERBOSE)
+                    Log.v(LOG_TAG, "messageArrived: " + topic + " / " + message.toString());
 
                 String tvTopic = topic.replaceAll("/", "_");
 
@@ -216,9 +213,9 @@ public class MainActivity extends AppCompatActivity {
                 View currentView = adapterViewPager.getRegisteredFragment(mViewPager.getCurrentItem()).getView();
                 TextView tv = (TextView) currentView.findViewById(getResources().getIdentifier(tvTopic, "id", currentView.getContext().getPackageName()));
                 if (tv != null) {
-                    Log.v(LOG_TAG, "tv#1 is not null: " + tvTopic);
+                    if (VERBOSE) Log.v(LOG_TAG, "tv#1 is not null: " + tvTopic);
                 } else {
-                    Log.v(LOG_TAG, "tv#1 is null: " + tvTopic);
+                    if (VERBOSE) Log.v(LOG_TAG, "tv#1 is null: " + tvTopic);
                 }
 
 
@@ -230,7 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void deliveryComplete(IMqttDeliveryToken token) {
-//                log(LogEntry.LOGTYPE_LOG, null, null, "deliveryComplete");
+                if (VERBOSE) Log.v(LOG_TAG, "deliveryComplete");
             }
         });
 
@@ -251,22 +248,30 @@ public class MainActivity extends AppCompatActivity {
                         !sharedPrefs.getString("mqtt_username", "").equals(mqttUser) ||
                         !sharedPrefs.getString("mqtt_password", "").equals(mqttPass)
                 ) {
-            Log.d(LOG_TAG, "MQTT configuration has changed. Recreate");
+            if (DEBUG) Log.d(LOG_TAG, "MQTT configuration has changed. Recreate");
             recreate();
         }
 
 
     }
 
+    @Override
+    public void onBackPressed() {
+
+        if (backButtonCount >= 1) {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Press the back button once again to close the application.", Toast.LENGTH_SHORT).show();
+            backButtonCount++;
+        }
+    }
 
     @Override
     public void onDestroy() {
-        Log.d(LOG_TAG, "ondestroy");
-/*
-        if (prefChangeReceiver != null) {
-            unregisterReceiver(prefChangeReceiver);
-        }
-*/
+        if (DEBUG) Log.d(LOG_TAG, "ondestroy");
 
         if (client != null) {
             try {
@@ -274,18 +279,21 @@ public class MainActivity extends AppCompatActivity {
                 disconToken.setActionCallback(new IMqttActionListener() {
                     @Override
                     public void onSuccess(IMqttToken asyncActionToken) {
-                        Log.d(LOG_TAG, "MQTT disconnect successful");
+                        if (DEBUG) Log.d(LOG_TAG, "MQTT disconnect successful");
 
                     }
 
                     @Override
                     public void onFailure(IMqttToken asyncActionToken,
                                           Throwable exception) {
-                        Log.e(LOG_TAG, "MQTT disconnect failed: " + exception.getMessage());
+                        if (ERROR)
+                            Log.e(LOG_TAG, "MQTT disconnect failed: " + exception.getMessage());
                     }
                 });
             } catch (MqttException e) {
-                e.printStackTrace();
+                if (ERROR) Log.e(LOG_TAG, "MqttException: " + e.getMessage());
+            } catch (NullPointerException e) {
+                if (ERROR) Log.e(LOG_TAG, "Looks like we were not connected: " + e.getMessage());
             }
         }
         super.onDestroy();
@@ -294,21 +302,20 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
+            return true;
+        } else if (id == R.id.action_about) {
+            startActivity(new Intent(this, AboutActivity.class));
             return true;
         }
 
@@ -328,11 +335,11 @@ public class MainActivity extends AppCompatActivity {
             int i = 0;
             while ((i < 10) && status == AppStatus.INITIAL) {
                 i++;
-                Log.d(LOG_TAG, i + ". ready?: " + status);
+                if (DEBUG) Log.d(LOG_TAG, i + ". ready?: " + status);
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
+                    if (ERROR) Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
                 }
             }
 
@@ -343,11 +350,11 @@ public class MainActivity extends AppCompatActivity {
             i = 0;
             while ((i < 10) && (mySys.size() < 10)) {
                 i++;
-                Log.d(LOG_TAG, i + ". mySys size: " + mySys.size());
+                if (DEBUG) Log.d(LOG_TAG, i + ". mySys size: " + mySys.size());
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
-                    Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
+                    if (ERROR) Log.e(LOG_TAG, "InterruptedException: " + e.getMessage());
                 }
             }
             return null;
@@ -358,7 +365,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            Log.d(LOG_TAG, "onPostExecute: " + mySys.size());
+            if (DEBUG) Log.d(LOG_TAG, "onPostExecute: " + mySys.size());
             progress.dismiss();
 
             ImageView alertImage = (ImageView) findViewById(R.id.alert);
@@ -414,11 +421,11 @@ public class MainActivity extends AppCompatActivity {
 //            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
 //            textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
 
-            Log.d(LOG_TAG, "Tab selected: " + getArguments().getInt(ARG_SECTION_NUMBER));
+            if (DEBUG) Log.d(LOG_TAG, "Tab selected: " + getArguments().getInt(ARG_SECTION_NUMBER));
 
             switch (getArguments().getInt(ARG_SECTION_NUMBER)) {
                 case 1:
-                    Log.d(LOG_TAG, "Highlights");
+                    if (DEBUG) Log.d(LOG_TAG, "Highlights");
                     rootView = inflater.inflate(R.layout.fragment_highlights, container, false);
 
 //                    TextView tv2 = (TextView) rootView.findViewById(R.id.$SYS_broker_uptime);
@@ -426,24 +433,20 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case 2:
-                    Log.d(LOG_TAG, "System");
+                    if (DEBUG) Log.d(LOG_TAG, "System");
                     rootView = inflater.inflate(R.layout.fragment_system, container, false);
                     break;
                 case 3:
-                    Log.d(LOG_TAG, "Clients");
+                    if (DEBUG) Log.d(LOG_TAG, "Clients");
                     rootView = inflater.inflate(R.layout.fragment_clients, container, false);
                     break;
                 case 4:
-                    Log.d(LOG_TAG, "Messages & Data");
+                    if (DEBUG) Log.d(LOG_TAG, "Messages & Data");
                     rootView = inflater.inflate(R.layout.fragment_messages, container, false);
                     break;
                 case 5:
-                    Log.d(LOG_TAG, "Stats");
+                    if (DEBUG) Log.d(LOG_TAG, "Stats");
                     rootView = inflater.inflate(R.layout.fragment_stats, container, false);
-                    break;
-                case 0:
-                    Log.d(LOG_TAG, "Error");
-                    rootView = inflater.inflate(R.layout.fragment_error, container, false);
                     break;
             }
 
@@ -457,10 +460,11 @@ public class MainActivity extends AppCompatActivity {
                 String key = (String) itr.next();
                 tv = (TextView) rootView.findViewById(getResources().getIdentifier(key, "id", rootView.getContext().getPackageName()));
                 if (tv != null) {
-                    Log.d(LOG_TAG, "tv#2 is not null: " + key + " value: " + mySys.getProperty(key));
+                    if (DEBUG)
+                        Log.d(LOG_TAG, "tv#2 is not null: " + key + " value: " + mySys.getProperty(key));
                     tv.setText(mySys.getProperty(key));
                 } else {
-                    Log.d(LOG_TAG, "tv#2 is null: " + key);
+                    if (DEBUG) Log.d(LOG_TAG, "tv#2 is null: " + key);
                 }
 
             }
@@ -471,19 +475,22 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
-            Log.d(LOG_TAG, "fragment onActivityCreated - " + getArguments().getInt(ARG_SECTION_NUMBER));
+            if (DEBUG)
+                Log.d(LOG_TAG, "fragment onActivityCreated - " + getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
         @Override
         public void onStart() {
             super.onStart();
-            Log.d(LOG_TAG, "fragment onStart - " + getArguments().getInt(ARG_SECTION_NUMBER));
+            if (DEBUG)
+                Log.d(LOG_TAG, "fragment onStart - " + getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
         @Override
         public void onAttach(Context context) {
             super.onAttach(context);
-            Log.d(LOG_TAG, "fragment onAttach - " + getArguments().getInt(ARG_SECTION_NUMBER));
+            if (DEBUG)
+                Log.d(LOG_TAG, "fragment onAttach - " + getArguments().getInt(ARG_SECTION_NUMBER));
 /*
             if (context instanceof OnItemSelectedListener) {
                 listener = (OnItemSelectedListener) context;
@@ -497,13 +504,14 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onDetach() {
             super.onDetach();
-            Log.d(LOG_TAG, "fragment onDetach");
+            if (DEBUG) Log.d(LOG_TAG, "fragment onDetach");
         }
 
         @Override
         public void onResume() {
             super.onResume();
-            Log.d(LOG_TAG, "fragment onResume - " + getArguments().getInt(ARG_SECTION_NUMBER));
+            if (DEBUG)
+                Log.d(LOG_TAG, "fragment onResume - " + getArguments().getInt(ARG_SECTION_NUMBER));
         }
 
 
@@ -511,7 +519,8 @@ public class MainActivity extends AppCompatActivity {
         public void setUserVisibleHint(boolean isVisibleToUser) {
             super.setUserVisibleHint(isVisibleToUser);
             if (isVisibleToUser) {
-                Log.d(LOG_TAG, "showing fragment: " + getArguments().getInt(ARG_SECTION_NUMBER));
+                if (DEBUG)
+                    Log.d(LOG_TAG, "showing fragment: " + getArguments().getInt(ARG_SECTION_NUMBER));
 //                FragmentTransaction ft = getFragmentManager().beginTransaction();
 //                ft.detach(this).attach(this).commit();
             } else {
@@ -549,7 +558,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
 
-            Log.v(LOG_TAG, "getPageTitle: " + position);
+            if (VERBOSE) Log.v(LOG_TAG, "getPageTitle: " + position);
 
             switch (position) {
                 case 0:
@@ -568,7 +577,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getItemPosition(Object object) {
-            Log.d(LOG_TAG, "reload");
+            if (DEBUG) Log.d(LOG_TAG, "reload");
             return POSITION_NONE;
         }
 
