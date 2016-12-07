@@ -69,6 +69,17 @@
         android:layout_gravity="center"
         android:visibility="invisible" />
 
+    <TextView
+        android:id="@+id/alert_text"
+        android:layout_below="@+id/alert"
+        style="@style/SysTopicTitleName"
+        android:layout_marginTop="140dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text=""
+        android:layout_gravity="center"
+        android:gravity="center" />
+
     <LinearLayout
         android:layout_height="30dip"
         android:layout_width="fill_parent"
@@ -81,6 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dip"
             android:id="@+id/mqtt_status"
+            style="@style/SysTopicTitleName"
             android:textColor="@color/colorAccent"
             android:text=""
             android:layout_margin="5dp" />

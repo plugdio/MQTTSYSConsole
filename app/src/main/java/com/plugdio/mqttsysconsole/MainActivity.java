@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static Properties mySys = new Properties();
     private ProgressDialog progress;
+    private ImageView alertImage;
+    private TextView alertText;
 
     // constants used to define App and MQTT connection status
     private enum AppStatus {
@@ -87,8 +89,10 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        alertImage = (ImageView) findViewById(R.id.alert);
+        alertText = (TextView) findViewById(R.id.alert_text);
         final TextView mqttStatusTextView = (TextView) findViewById(R.id.mqtt_status);
-        mqttStatusTextView.setText("Not connected");
+        mqttStatusTextView.setText(getString(R.string.status_not_connected));
 
 //        progress = ProgressDialog.show(this, "MQTT $SYS Console", "Connecting");
         progress = new ProgressDialog(this);
@@ -112,9 +116,11 @@ public class MainActivity extends AppCompatActivity {
                         (mqqtAuthEnabled && mqttPass.equals(""))
                 ) {
             if (DEBUG) Log.d(LOG_TAG, "MQTT configuration is missing");
-            mqttStatusTextView.setText("MQTT configuration is missing");
+            mqttStatusTextView.setText(getString(R.string.status_missing_config));
             status = AppStatus.NO_CONFIG;
             progress.dismiss();
+            alertImage.setVisibility(View.VISIBLE);
+            alertText.setText(getString(R.string.alert_missing_config));
             return;
         }
 
@@ -154,7 +160,7 @@ public class MainActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(IMqttToken asyncActionToken) {
                                 if (DEBUG) Log.d(LOG_TAG, "MQTT subscribe successful");
-                                mqttStatusTextView.setText("Connected");
+                                mqttStatusTextView.setText(getString(R.string.status_connected));
                                 status = AppStatus.CONNECTED;
                             }
 
@@ -163,24 +169,33 @@ public class MainActivity extends AppCompatActivity {
                                                   Throwable exception) {
                                 if (ERROR)
                                     Log.e(LOG_TAG, "MQTT subscribe failed: " + exception.getMessage());
-                                mqttStatusTextView.setText("Couldn't subscripbe to the $SYS topic");
+                                mqttStatusTextView.setText(getString(R.string.status_subscribe_failed));
+                                alertImage.setVisibility(View.VISIBLE);
+                                alertText.setText(getString(R.string.alert_subscribe_failed));
                                 status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
                             }
                         });
                     } catch (MqttException e) {
                         if (ERROR) Log.e(LOG_TAG, "MqttException #2: " + e.getMessage());
-                        mqttStatusTextView.setText("Connection failed");
+                        mqttStatusTextView.setText(getString(R.string.status_mqtt_failed));
+                        alertImage.setVisibility(View.VISIBLE);
+                        alertText.setText(getString(R.string.status_mqtt_failed) + ": " + e.getMessage());
                     } catch (Exception e) {
                         if (ERROR) Log.e(LOG_TAG, "Exception #2: " + e.getMessage());
-                        mqttStatusTextView.setText("Connection failed");
+                        mqttStatusTextView.setText(getString(R.string.status_mqtt_failed));
+                        alertImage.setVisibility(View.VISIBLE);
+                        alertText.setText(getString(R.string.status_mqtt_failed) + ": " + e.getMessage());
                         return;
                     }
                 }
 
                 @Override
                 public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    if (ERROR) Log.e(LOG_TAG, "MQTT connection failed: " + exception.getMessage());
-                    mqttStatusTextView.setText("Connection failed");
+                    if (ERROR)
+                        Log.e(LOG_TAG, "MQTT connection failed: " + exception.getLocalizedMessage());
+                    mqttStatusTextView.setText(getString(R.string.status_mqtt_failed));
+                    alertImage.setVisibility(View.VISIBLE);
+                    alertText.setText(getString(R.string.alert_mqtt_failed));
                     status = AppStatus.NOTCONNECTED_UNKNOWNREASON;
 
                 }
@@ -188,10 +203,14 @@ public class MainActivity extends AppCompatActivity {
 
         } catch (MqttException e) {
             if (ERROR) Log.e(LOG_TAG, "MqttException #1: " + e.getMessage());
-            mqttStatusTextView.setText("Connection failed");
+            mqttStatusTextView.setText(getString(R.string.status_mqtt_failed));
+            alertImage.setVisibility(View.VISIBLE);
+            alertText.setText(getString(R.string.status_mqtt_failed) + ": " + e.getMessage());
         } catch (Exception e) {
             if (ERROR) Log.e(LOG_TAG, "Exception #1: " + e.getMessage());
-            mqttStatusTextView.setText("Connection failed");
+            mqttStatusTextView.setText(getString(R.string.status_mqtt_failed));
+            alertImage.setVisibility(View.VISIBLE);
+            alertText.setText(getString(R.string.status_mqtt_failed) + ": " + e.getMessage());
             return;
         }
         client.setCallback(new MqttCallback() {
@@ -367,8 +386,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
             if (DEBUG) Log.d(LOG_TAG, "onPostExecute: " + mySys.size());
             progress.dismiss();
-
-            ImageView alertImage = (ImageView) findViewById(R.id.alert);
 
             if (status == AppStatus.CONNECTED) {
                 alertImage.setVisibility(View.INVISIBLE);
