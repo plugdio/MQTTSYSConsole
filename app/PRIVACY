@@ -1,0 +1,1 @@
+MQTT $SYS Console does not collect or share personal information.
